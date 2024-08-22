@@ -13,7 +13,7 @@ function loadHashedApiKeys() {
 
 async function apiKeyMiddleware(req, res, next) {
     const apiKey = req.header('x-api-key'); // The client should send the key in this header
-    if (!apiKey || !validApiKeys.includes(apiKey)) {
+    if (!apiKey) {
         return res.status(403).json({ error: 'Forbidden' });
     }
 	const hashedApiKeys = loadHashedApiKeys();
