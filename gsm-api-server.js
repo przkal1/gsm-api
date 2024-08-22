@@ -6,7 +6,7 @@ const fs = require('fs');
 apiKeysFileName = 'api-keys.txt'
 function loadHashedApiKeys() {
     if (fs.existsSync(apiKeysFileName)) {
-        return JSON.parse(fs.readFileSync(apiKeysFile, 'utf8'));
+        return JSON.parse(fs.readFileSync(apiKeysFileName, 'utf8'));
     }
     return [];
 }
