@@ -64,9 +64,6 @@ app.post('/send-sms', apiKeyMiddleware, (req, res) => {
 		return res.status(400);
 	}
 	
-	phoneNumber = req.body.phoneNumber
-	
-	
     res.json({ msg: 'SENDING SMS: '+ req.body.phoneNumber + " " + req.body.message});
 });
 app.listen(3003, () => {})
