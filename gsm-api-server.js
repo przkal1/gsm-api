@@ -32,7 +32,7 @@ async function apiKeyMiddleware(req, res, next) {
 
 if (!fs.existsSync(apiKeysFileName)) {
 	try { 
-		const content = '';
+		const content = '[]';
 		fs.writeFileSync(apiKeysFileName, content);
 	} catch (err) {
 		console.log(err);
