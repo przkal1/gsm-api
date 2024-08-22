@@ -61,7 +61,8 @@ app.get('/secure-endpoint', apiKeyMiddleware, (req, res) => {
 
 app.post('/send-sms', apiKeyMiddleware, (req, res) => {
 	if (!req.body.phoneNumber || !req.body.message){
-		res.status(400);
+		res.status(400).send();
+		return
 	}
 	
     res.json({ msg: 'SENDING SMS: '+ req.body.phoneNumber + " " + req.body.message});
