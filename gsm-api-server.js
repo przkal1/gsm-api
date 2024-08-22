@@ -59,4 +59,14 @@ app.get('/secure-endpoint', apiKeyMiddleware, (req, res) => {
     res.json({ message: 'You have access to this secure endpoint!' });
 });
 
+app.post('/send-sms', apiKeyMiddleware, (req, res) => {
+	if (!req.body.phoneNumber || !req.body.message){
+		return res.status(400);
+	}
+	
+	phoneNumber = req.body.phoneNumber
+	
+	
+    res.json({ msg: 'SENDING SMS: '+ req.body.phoneNumber + " " + req.body.message});
+});
 app.listen(3003, () => {})
