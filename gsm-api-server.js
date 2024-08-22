@@ -12,7 +12,7 @@ function loadHashedApiKeys() {
 }
 
 async function apiKeyMiddleware(req, res, next) {
-    const apiKey = req.header('x-api-key'); // The client should send the key in this header
+    const apiKey = req.header('x-api-key');
     if (!apiKey) {
         return res.status(403).json({ error: 'Forbidden' });
     }
@@ -39,7 +39,6 @@ if (!fs.existsSync(apiKeysFileName)) {
 	}
 }
 
-
 const app = express()
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -51,8 +50,7 @@ app.use(express.static('frontend'))
 app.use(apiKeyMiddleware);
 app.use((err, req, res, next) => {
     if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-        console.error('Bad JSON');
-        return res.status(400).json({ error: 'Invalid JSON' }); // Custom error response
+        return res.status(400).json({ error: 'Invalid JSON' });
     }
     next();
 });
