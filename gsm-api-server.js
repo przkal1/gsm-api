@@ -1,15 +1,43 @@
 const express = require('express')
+const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser')
 
-const validApiKeys = ["a", "b"];
+apiKeysFileName = 'api-keys.txt'
+function loadHashedApiKeys() {
+    if (fs.existsSync(apiKeysFileName)) {
+        return JSON.parse(fs.readFileSync(apiKeysFile, 'utf8'));
+    }
+    return [];
+}
 
-function apiKeyMiddleware(req, res, next) {
+async function apiKeyMiddleware(req, res, next) {
     const apiKey = req.header('x-api-key'); // The client should send the key in this header
     if (!apiKey || !validApiKeys.includes(apiKey)) {
         return res.status(403).json({ error: 'Forbidden' });
     }
+	const hashedApiKeys = loadHashedApiKeys();
+	
+	const isValid = await Promise.any(
+        hashedApiKeys.map((hashedApiKey) => bcrypt.compare(apiKey, hashedApiKey))
+    ).catch(() => false);
+	
+	if (!isValid) {
+        return res.status(403).json({ error: 'Forbidden' });
+    }
+	
     next();
 }
+
+
+if (!fs.existsSync(apiKeysFileName)) {
+	try { 
+		const content = '';
+		fs.writeFileSync(apiKeysFileName, content);
+	} catch (err) {
+		console.log(err);
+	}
+}
+
 
 const app = express()
 app.use( bodyParser.json() );
