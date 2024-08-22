@@ -1,6 +1,7 @@
 const express = require('express')
-//const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser')
+const fs = require('fs');
 
 apiKeysFileName = 'api-keys.txt'
 function loadHashedApiKeys() {
@@ -17,10 +18,9 @@ async function apiKeyMiddleware(req, res, next) {
     }
 	const hashedApiKeys = loadHashedApiKeys();
 	
-	// const isValid = await Promise.any(
-        // hashedApiKeys.map((hashedApiKey) => bcrypt.compare(apiKey, hashedApiKey))
-    // ).catch(() => false);
-	const isValid = true
+	const isValid = await Promise.any(
+        hashedApiKeys.map((hashedApiKey) => bcrypt.compare(apiKey, hashedApiKey))
+    ).catch(() => false);
 	
 	if (!isValid) {
         return res.status(403).json({ error: 'Forbidden' });
