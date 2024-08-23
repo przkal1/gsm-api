@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser')
 const fs = require('fs');
 const mqtt = require('mqtt');
+const path = require('path');
 
 const caFilePath = path.join(__dirname, 'certs', 'ca.crt');
 const clientCertFilePath = path.join(__dirname, 'certs', 'client.crt');
