@@ -90,7 +90,7 @@ app.post('/send-sms', apiKeyMiddleware, (req, res) => {
 		return
 	}
 	
-	mqttClient.publish('test', message, (err) => {
+	mqttClient.publish('test', req.body.message, (err) => {
         if (err) {
             console.error('Failed to publish message', err);
             return res.status(500).send('Failed to send MQTT message');
