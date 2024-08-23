@@ -46,7 +46,7 @@ if (!fs.existsSync(apiKeysFileName)) {
 }
 
 
-const mqttClient = mqtt.connect('mqtts://localhost:8883', {
+const mqttClient = mqtt.connect('mqtts://185.24.219.86:8883', {
     ca: fs.readFileSync(caFilePath),
     cert: fs.readFileSync(clientCertFilePath),
     key: fs.readFileSync(clientKeyFilePath),
