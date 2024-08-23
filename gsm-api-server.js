@@ -2,6 +2,11 @@ const express = require('express')
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser')
 const fs = require('fs');
+const mqtt = require('mqtt');
+
+const caFilePath = path.join(__dirname, 'certs', 'ca.crt');
+const clientCertFilePath = path.join(__dirname, 'certs', 'client.crt');
+const clientKeyFilePath = path.join(__dirname, 'certs', 'client.key');
 
 apiKeysFileName = 'api-keys.txt'
 function loadHashedApiKeys() {
@@ -39,6 +44,20 @@ if (!fs.existsSync(apiKeysFileName)) {
 	}
 }
 
+
+const mqttClient = mqtt.connect('mqtts://localhost:8881', {
+    ca: fs.readFileSync(caFilePath),
+    cert: fs.readFileSync(clientCertFilePath),
+    key: fs.readFileSync(clientKeyFilePath),
+    rejectUnauthorized: true, // set to false if you want to skip server identity verification
+});
+mqttClient.on('connect', () => {
+    console.log('Connected to MQTT broker with TLS/SSL');
+});
+mqttClient.on('error', (error) => {
+    console.error('MQTT connection error:', error);
+});
+
 const app = express()
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -69,6 +88,16 @@ app.post('/send-sms', apiKeyMiddleware, (req, res) => {
 		res.status(400).send();
 		return
 	}
+	
+	mqttClient.publish('test', message, (err) => {
+        if (err) {
+            console.error('Failed to publish message', err);
+            return res.status(500).send('Failed to send MQTT message');
+        }
+
+        console.log('Message sent to MQTT broker:', message);
+        res.send('MQTT message sent successfully!');
+    });
 	
     res.json({ msg: 'SENDING SMS: '+ req.body.phoneNumber + " " + req.body.message});
 });
