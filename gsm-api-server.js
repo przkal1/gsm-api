@@ -93,13 +93,13 @@ app.post('/send-sms', apiKeyMiddleware, (req, res) => {
 	mqttClient.publish('test', req.body.message, (err) => {
         if (err) {
             console.error('Failed to publish message', err);
-            return res.status(500).send('Failed to send MQTT message');
+            res.status(500).send('Failed to send MQTT message');
+			return
+			
         }
-
-        console.log('Message sent to MQTT broker:', req.body.message);
-        res.send('MQTT message sent successfully!');
+		res.json({ msg: 'SENDING SMS: '+ req.body.phoneNumber + " " + req.body.message});
+		
     });
 	
-    res.json({ msg: 'SENDING SMS: '+ req.body.phoneNumber + " " + req.body.message});
 });
 app.listen(3003, () => {})
