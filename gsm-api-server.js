@@ -47,8 +47,9 @@ if (!fs.existsSync(apiKeysFileName)) {
 
 
 const mqttClient = mqtt.connect('mqtts://185.24.219.86:8883', {
-
-    rejectUnauthorized: false, // set to false if you want to skip server identity verification
+    ca: fs.readFileSync(caFilePath),
+    cert: fs.readFileSync(clientCertFilePath),
+    key: fs.readFileSync(clientKeyFilePath)
 });
 mqttClient.on('connect', () => {
     console.log('Connected to MQTT broker with TLS/SSL');
