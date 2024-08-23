@@ -96,7 +96,7 @@ app.post('/send-sms', apiKeyMiddleware, (req, res) => {
             return res.status(500).send('Failed to send MQTT message');
         }
 
-        console.log('Message sent to MQTT broker:', message);
+        console.log('Message sent to MQTT broker:', req.body.message);
         res.send('MQTT message sent successfully!');
     });
 	
