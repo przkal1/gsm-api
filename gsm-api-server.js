@@ -131,7 +131,7 @@ app.post('/send-sms', apiKeyMiddleware, async function (req, res) {
 		return
 	}
 	
-    id = uuidv4()
+    const id = uuidv4()
     var mqttSendSmsMsg = JSON.stringify({
         phoneNumber: req.body.phoneNumber,
         message: req.body.message,
@@ -159,7 +159,7 @@ app.post('/call-single-ringback', apiKeyMiddleware, (req, res) => {
 		return
 	}
 	
-    id = uuidv4()
+    const id = uuidv4()
     var mqttCallSingleRingbackMsg = JSON.stringify({
         phoneNumber: req.body.phoneNumber,
         id: id
