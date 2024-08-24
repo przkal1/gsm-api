@@ -62,12 +62,8 @@ mqttClient.on('connect', () => {
 mqttClient.on('error', (error) => {
     console.error('MQTT connection error:', error);
 });
-mqttClient.subscribe(sendSmsReponseTopic, () => {
-    console.log(`Subscribe to topic '${topic}'`)
-})
-mqttClient.subscribe(callSingleRingbackResponseTopic, () => {
-    console.log(`Subscribe to topic '${topic}'`)
-})
+mqttClient.subscribe(sendSmsReponseTopic, () => {})
+mqttClient.subscribe(callSingleRingbackResponseTopic, () => {})
 
 mqttClient.on('message', (topic, payload) => {
     if (topic == sendSmsReponseTopic || topic == callSingleRingbackResponseTopic){
