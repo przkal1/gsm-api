@@ -66,6 +66,9 @@ mqttClient.subscribe(sendSmsReponseTopic, () => {})
 mqttClient.subscribe(callSingleRingbackResponseTopic, () => {})
 
 mqttClient.on('message', (topic, payload) => {
+    console.log('Incoming message.');
+    console.log(topic);
+    console.log(payload);
     if (topic == sendSmsReponseTopic || topic == callSingleRingbackResponseTopic){
         const data = JSON.parse(payload.toString());
         if (!gsmRequests[data.id]) return
@@ -113,12 +116,6 @@ async function waitForAckResponse(id, timeout) {
     }
 }
 
-
-
-
-function onPublish(err) {
-
-}
 
 
 app.get('/', function (req, res) {
