@@ -47,7 +47,7 @@ if (!fs.existsSync(apiKeysFileName)) {
 
 
 const sendSmsReponseTopic = "9ead4bdc-409b-47d7-8161-f0bd020af480/send-sms-response"
-const callSingleRingbackResponseTopic = "9ead4bdc-409b-47d7-8161-f0bd020af480/send-sms-response"
+const callSingleRingbackResponseTopic = "9ead4bdc-409b-47d7-8161-f0bd020af480/call-single-ringback-response"
 const sendSmsRequestTopic = "9ead4bdc-409b-47d7-8161-f0bd020af480/send-sms-request"
 const callSingleRingbackRequestTopic = "9ead4bdc-409b-47d7-8161-f0bd020af480/call-single-ringback-request"
 const mqttClient = mqtt.connect('mqtts://185.24.219.86:8883', {
@@ -66,9 +66,6 @@ mqttClient.subscribe(sendSmsReponseTopic, () => {})
 mqttClient.subscribe(callSingleRingbackResponseTopic, () => {})
 
 mqttClient.on('message', (topic, payload) => {
-    console.log('Incoming message.');
-    console.log(topic);
-    console.log(payload);
     if (topic == sendSmsReponseTopic || topic == callSingleRingbackResponseTopic){
         const data = JSON.parse(payload.toString());
         if (!gsmRequests[data.id]) return
