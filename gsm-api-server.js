@@ -153,7 +153,7 @@ app.post('/send-sms', apiKeyMiddleware, async function (req, res) {
     res.json({ msg: response_received, id: id, gsmRequests: gsmRequests});
 });
 
-app.post('/call-single-ringback', apiKeyMiddleware, (req, res) => {
+app.post('/call-single-ringback', apiKeyMiddleware, async function (req, res) {
 	if (!req.body.phoneNumber){
 		res.status(400).send();
 		return
@@ -173,10 +173,11 @@ app.post('/call-single-ringback', apiKeyMiddleware, (req, res) => {
 			return
 			
         }
-		res.json({ msg: 'SENDING SMS: '+ req.body.phoneNumber + " " + req.body.message});
-		
     });
 	
+    response_received = await waitForAckResponse(id, 1000)
+    delete gsmRequests[id]
+    res.json({ msg: response_received, id: id, gsmRequests: gsmRequests});
 });
 
 app.listen(3003, () => {})
