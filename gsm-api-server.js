@@ -144,7 +144,7 @@ app.post('/send-sms', apiKeyMiddleware, async function (req, res) {
 	
     response_received = await waitForAckResponse(id, 2000)
     delete gsmRequests[id]
-    res.json({ msg: response_received, id: id, gsmRequests: gsmRequests});
+    res.json({ ack: response_received, id: id, gsmRequests: gsmRequests});
 });
 
 app.post('/call-single-ringback', apiKeyMiddleware, async function (req, res) {
@@ -171,7 +171,7 @@ app.post('/call-single-ringback', apiKeyMiddleware, async function (req, res) {
 	
     response_received = await waitForAckResponse(id, 2000)
     delete gsmRequests[id]
-    res.json({ msg: response_received, id: id, gsmRequests: gsmRequests});
+    res.json({ ack: response_received, id: id, gsmRequests: gsmRequests});
 });
 
 app.listen(3003, () => {})
