@@ -25,10 +25,14 @@ async function apiKeyMiddleware(req, res, next) {
     }
 	const hashedApiKeys = loadHashedApiKeys();
 	
-	console.log(hashedApiKeys);
-	const isValid = await Promise.any(
-        hashedApiKeys.map((hashedApiKey) => bcrypt.compare(apiKey, hashedApiKey))
-    ).catch(() => false);
+	const isValid = hashedApiKeys.some(hashedApiKey => {
+		return bcrypt.compare(apiKey, hashedApiKey))
+	})
+	
+	// console.log(hashedApiKeys);
+	// const isValid = await Promise.any(
+        // hashedApiKeys.map((hashedApiKey) => bcrypt.compare(apiKey, hashedApiKey))
+    // ).catch(() => false);
 	
 	if (!isValid) {
         return res.status(403).json({ error: 'Forbidden' });
