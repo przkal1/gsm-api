@@ -82,7 +82,6 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static('frontend'))
 
-app.use(apiKeyMiddleware);
 app.use((err, req, res, next) => {
     if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
         return res.status(400).json({ error: 'Invalid JSON' });
