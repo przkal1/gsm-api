@@ -25,6 +25,7 @@ async function apiKeyMiddleware(req, res, next) {
     }
 	const hashedApiKeys = loadHashedApiKeys();
 	
+	console.log(hashedApiKeys);
 	const isValid = await Promise.any(
         hashedApiKeys.map((hashedApiKey) => bcrypt.compare(apiKey, hashedApiKey))
     ).catch(() => false);
