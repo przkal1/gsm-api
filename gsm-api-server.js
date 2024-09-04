@@ -26,7 +26,7 @@ async function apiKeyMiddleware(req, res, next) {
 	const hashedApiKeys = loadHashedApiKeys();
 	
 	const isValid = hashedApiKeys.some(hashedApiKey => {
-		return bcrypt.compare(apiKey, hashedApiKey))
+		return bcrypt.compare(apiKey, hashedApiKey)
 	})
 	
 	// console.log(hashedApiKeys);
